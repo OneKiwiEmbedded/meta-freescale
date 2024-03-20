@@ -90,4 +90,6 @@ do_install:append() {
     fi
 
     sed -i -e 's,@bindir@,${bindir},g' ${D}${sysconfdir}/xdg/weston/weston.ini
+
+    install -m 0644 ${WORKDIR}/onekiwi.png ${D}${sysconfdir}/xdg/weston/onekiwi.png
 }
