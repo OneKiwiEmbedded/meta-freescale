@@ -9,7 +9,7 @@ PV .= "+git${SRCPV}"
 
 SRC_URI = "git://github.com/nxp-imx/imx-atf.git;protocol=https;branch=${SRCBRANCH}"
 SRCBRANCH = "lf_v2.8"
-SRCREV = "08e9d4eef2262c0dd072b4325e8919e06d349e02"
+SRCREV = "99195a23d3aef485fb8f10939583b1bdef18881c"
 
 S = "${WORKDIR}/git"
 
@@ -48,7 +48,7 @@ def remove_options_tail (in_string):
     from itertools import takewhile
     return ' '.join(takewhile(lambda x: not x.startswith('-'), in_string.split(' ')))
 
-EXTRA_OEMAKE += 'LD="${@remove_options_tail(d.getVar('LD'))}.bfd"'
+EXTRA_OEMAKE += 'LD="${@remove_options_tail(d.getVar('LD'))}"'
 
 EXTRA_OEMAKE += 'CC="${@remove_options_tail(d.getVar('CC'))}"'
 

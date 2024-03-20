@@ -16,13 +16,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9fa7f895f96bde2d47fd5b7d95b6ba4d \
 PROVIDES = "jailhouse"
 RPROVIDES:${PN} += "jailhouse"
 
-SRCBRANCH = "lf-6.1.55_2.2.0"
-SRCREV = "139bb5fff80579ae3602061392b9424d6432710a"
+SRCBRANCH = "lf-6.1.22_2.0.0"
+SRCREV = "e090abc70bb395f705f85659ad92bdafbe407628"
 
-IMX_JAILHOUSE_SRC ?= "git://github.com/nxp-imx/imx-jailhouse.git;protocol=https"
-SRC_URI = "${IMX_JAILHOUSE_SRC};branch=${SRCBRANCH} \
-           file://arm-arm64-Makefile-Remove-march-option-from-Makefile.patch \
-          "
+SRC_URI = "git://github.com/nxp-imx/imx-jailhouse.git;protocol=https;branch=${SRCBRANCH}"
 
 DEPENDS = " \
     make-native \
@@ -31,7 +28,7 @@ DEPENDS = " \
     dtc-native \
 "
 
-inherit module bash-completion deploy setuptools3
+inherit module python3native bash-completion deploy setuptools3
 
 S = "${WORKDIR}/git"
 B = "${S}"
@@ -44,18 +41,7 @@ INMATES_DIR ?= "${JH_DATADIR}/inmates"
 
 TUNE_CCARGS:remove:mx93-nxp-bsp = "-mcpu=cortex-a55"
 
-EXTRA_OEMAKE += 'V=1'
-EXTRA_OEMAKE += 'PYTHON=python3'
-EXTRA_OEMAKE += 'LDFLAGS=""'
-EXTRA_OEMAKE += 'CC="${CC}"'
-EXTRA_OEMAKE += 'ARCH=${JH_ARCH}'
-EXTRA_OEMAKE += 'CROSS_COMPILE=${TARGET_PREFIX}'
-EXTRA_OEMAKE += 'KDIR=${STAGING_KERNEL_BUILDDIR}'
-EXTRA_OEMAKE += 'MODLIB="${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}"'
-EXTRA_OEMAKE += 'INSTALL_MOD_PATH=${D}${root_prefix}'
-EXTRA_OEMAKE += 'firmwaredir=${nonarch_base_libdir}/firmware'
-
-do_configure:prepend() {
+do_configure() {
    if [ -d ${STAGING_DIR_HOST}/${CELLCONF_DIR} ];
    then
       cp "${STAGING_DIR_HOST}/${CELLCONF_DIR}/"*.c ${S}/configs/${ARCH}/
@@ -63,12 +49,24 @@ do_configure:prepend() {
 }
 
 do_compile:prepend() {
-    # explicity call make to build the kernel module and tools
-    oe_runmake
+    unset LDFLAGS
+    oe_runmake V=1 CC="${CC}" \
+        ARCH=${JH_ARCH} CROSS_COMPILE=${TARGET_PREFIX} \
+        KDIR=${STAGING_KERNEL_BUILDDIR}
 }
 
-do_install:append() {
-    oe_runmake DESTDIR=${D} install
+do_install:prepend() {
+    oe_runmake \
+        PYTHON=python3 \
+        V=1 \
+        LDFLAGS="" \
+        CC="${CC}" \
+        ARCH=${JH_ARCH} \
+        CROSS_COMPILE=${TARGET_PREFIX} \
+        KDIR=${STAGING_KERNEL_BUILDDIR} \
+        INSTALL_MOD_PATH=${D}${root_prefix} \
+        firmwaredir=${nonarch_base_libdir}/firmware \
+        DESTDIR=${D} install
 
     install -d ${D}${CELL_DIR}
     install ${B}/configs/${JH_ARCH}/*.cell ${D}${CELL_DIR}/
@@ -94,7 +92,6 @@ FILES:${PN}:remove = "${libdir}/*"
 FILES:pyjailhouse = "${PYTHON_SITEPACKAGES_DIR}"
 
 RDEPENDS:${PN} += " \
-    pyjailhouse \
     python3-curses \
     python3-datetime \
     python3-mmap \

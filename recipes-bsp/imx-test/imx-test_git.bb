@@ -19,8 +19,8 @@ PV = "7.0+${SRCPV}"
 
 SRC_URI = "git://github.com/nxp-imx/imx-test.git;protocol=https;branch=${SRCBRANCH} \
            file://memtool_profile"
-SRCBRANCH = "lf-6.1.55_2.2.0"
-SRCREV = "e8b3c9026553233491abb4df4185dd7291a8ffb2"
+SRCBRANCH = "lf-6.1.22_2.0.0"
+SRCREV = "9fe083c29439b71292df9a8e4d40c73f25828a69"
 
 S = "${WORKDIR}/git"
 
@@ -73,11 +73,11 @@ do_install() {
     if [ -e ${WORKDIR}/clocks.sh ]; then
         install -m 755 ${WORKDIR}/clocks.sh ${D}/unit_tests/clocks.sh
     fi
-    install -d -m 0755 ${D}${ROOT_HOME}/
-    install -m 0644 ${WORKDIR}/memtool_profile ${D}${ROOT_HOME}/.profile
+    install -d -m 0755 ${D}/home/root/
+    install -m 0644 ${WORKDIR}/memtool_profile ${D}/home/root/.profile
 }
 
-FILES:${PN} += "/unit_tests ${ROOT_HOME}/.profile"
+FILES:${PN} += "/unit_tests /home/root/.profile"
 RDEPENDS:${PN} = "bash"
 
 FILES:${PN}-dbg += "/unit_tests/.debug"

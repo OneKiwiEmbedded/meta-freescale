@@ -3,21 +3,18 @@
 # Copyright (C) 2017-2023 NXP
 
 require recipes-bsp/u-boot/u-boot.inc
-require u-boot-imx-common_${PV}.inc
+require recipes-bsp/u-boot/u-boot-imx-common_${PV}.inc
 
 PROVIDES += "u-boot u-boot-mfgtool"
 
 inherit uuu_bootloader_tag
 
-UUU_BOOTLOADER                          = ""
-UUU_BOOTLOADER:mx6-generic-bsp          = "${UBOOT_BINARY}"
-UUU_BOOTLOADER:mx7-generic-bsp          = "${UBOOT_BINARY}"
-UUU_BOOTLOADER_TAGGED                   = ""
-UUU_BOOTLOADER_TAGGED:mx6-generic-bsp   = "u-boot-tagged.${UBOOT_SUFFIX}"
-UUU_BOOTLOADER_TAGGED:mx7-generic-bsp   = "u-boot-tagged.${UBOOT_SUFFIX}"
-UUU_BOOTLOADER_UNTAGGED                 = ""
-UUU_BOOTLOADER_UNTAGGED:mx6-generic-bsp = "u-boot-untagged.${UBOOT_SUFFIX}"
-UUU_BOOTLOADER_UNTAGGED:mx7-generic-bsp = "u-boot-untagged.${UBOOT_SUFFIX}"
+UUU_BOOTLOADER                        = ""
+UUU_BOOTLOADER:mx6-generic-bsp        = "${UBOOT_BINARY}"
+UUU_BOOTLOADER:mx7-generic-bsp        = "${UBOOT_BINARY}"
+UUU_BOOTLOADER_TAGGED                 = ""
+UUU_BOOTLOADER_TAGGED:mx6-generic-bsp = "u-boot-tagged.${UBOOT_SUFFIX}"
+UUU_BOOTLOADER_TAGGED:mx7-generic-bsp = "u-boot-tagged.${UBOOT_SUFFIX}"
 
 do_deploy:append:mx8m-generic-bsp() {
     # Deploy u-boot-nodtb.bin and fsl-imx8m*-XX.dtb for mkimage to generate boot binary

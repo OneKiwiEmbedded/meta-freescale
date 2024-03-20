@@ -180,7 +180,6 @@ IMX_SOC_REV:mx8dx-generic-bsp  ??= "C0"
 IMX_SOC_REV:mx8ulp-generic-bsp ??= \
     "${@bb.utils.contains('MACHINE_FEATURES', 'soc-reva0', 'A0', \
                                                            'A2', d)}"
-IMX_SOC_REV:mx93-generic-bsp   ??= "A1"
 
 IMX_SOC_REV_LOWER   = "${@d.getVar('IMX_SOC_REV').lower()}"
 IMX_SOC_REV_UPPER   = "${@d.getVar('IMX_SOC_REV').upper()}"
@@ -398,8 +397,8 @@ IMX_EXTRA_FIRMWARE                   ?= ""
 IMX_EXTRA_FIRMWARE:mx8-generic-bsp    = "imx-boot-firmware-files imx-sc-firmware imx-seco"
 IMX_EXTRA_FIRMWARE:mx8m-generic-bsp   = "imx-boot-firmware-files"
 IMX_EXTRA_FIRMWARE:mx8x-generic-bsp   = "imx-sc-firmware imx-seco"
-IMX_EXTRA_FIRMWARE:mx8ulp-generic-bsp = "firmware-upower firmware-ele-imx"
-IMX_EXTRA_FIRMWARE:mx93-generic-bsp   = "imx-boot-firmware-files firmware-ele-imx"
+IMX_EXTRA_FIRMWARE:mx8ulp-generic-bsp = "firmware-upower firmware-sentinel"
+IMX_EXTRA_FIRMWARE:mx93-generic-bsp   = "imx-boot-firmware-files firmware-sentinel"
 
 # Firmware
 MACHINE_FIRMWARE ?= ""
@@ -506,14 +505,14 @@ MACHINE_GSTREAMER_1_0_PLUGIN:mx8ulp-nxp-bsp ?= "imx-gst1.0-plugin"
 MACHINE_GSTREAMER_1_0_PLUGIN:mx93-nxp-bsp   ?= "imx-gst1.0-plugin"
 
 # GStreamer forked recipes
-PREFERRED_VERSION_gstreamer1.0:mx8-nxp-bsp              ??= "1.22.5.imx"
-PREFERRED_VERSION_gstreamer1.0-plugins-bad:mx8-nxp-bsp  ??= "1.22.5.imx"
-PREFERRED_VERSION_gstreamer1.0-plugins-base:mx8-nxp-bsp ??= "1.22.5.imx"
-PREFERRED_VERSION_gstreamer1.0-plugins-good:mx8-nxp-bsp ??= "1.22.5.imx"
-PREFERRED_VERSION_gstreamer1.0:mx9-nxp-bsp              ??= "1.22.5.imx"
-PREFERRED_VERSION_gstreamer1.0-plugins-bad:mx9-nxp-bsp  ??= "1.22.5.imx"
-PREFERRED_VERSION_gstreamer1.0-plugins-base:mx9-nxp-bsp ??= "1.22.5.imx"
-PREFERRED_VERSION_gstreamer1.0-plugins-good:mx9-nxp-bsp ??= "1.22.5.imx"
+PREFERRED_VERSION_gstreamer1.0:mx8-nxp-bsp              ??= "1.22.0.imx"
+PREFERRED_VERSION_gstreamer1.0-plugins-bad:mx8-nxp-bsp  ??= "1.22.0.imx"
+PREFERRED_VERSION_gstreamer1.0-plugins-base:mx8-nxp-bsp ??= "1.22.0.imx"
+PREFERRED_VERSION_gstreamer1.0-plugins-good:mx8-nxp-bsp ??= "1.22.0.imx"
+PREFERRED_VERSION_gstreamer1.0:mx9-nxp-bsp              ??= "1.22.0.imx"
+PREFERRED_VERSION_gstreamer1.0-plugins-bad:mx9-nxp-bsp  ??= "1.22.0.imx"
+PREFERRED_VERSION_gstreamer1.0-plugins-base:mx9-nxp-bsp ??= "1.22.0.imx"
+PREFERRED_VERSION_gstreamer1.0-plugins-good:mx9-nxp-bsp ??= "1.22.0.imx"
 
 # GStreamer copied recipes
 PREFERRED_VERSION_gst-devtools:mx8-nxp-bsp              ??= "1.22.0.imx"
@@ -563,16 +562,16 @@ PREFERRED_PROVIDER_opencl-headers:imxgpu     ?= "imx-gpu-viv"
 PREFERRED_PROVIDER_opencl-icd-loader:imxgpu  ?= "imx-gpu-viv"
 PREFERRED_PROVIDER_virtual/opencl-icd:imxgpu ?= "imx-gpu-viv"
 
-PREFERRED_VERSION_weston:imx-nxp-bsp      ??= "11.0.3.imx"
+PREFERRED_VERSION_weston:imx-nxp-bsp      ??= "11.0.1.imx"
 # i.MX 6 & 7 stay on weston 10.0 for fbdev
-PREFERRED_VERSION_weston:mx6-nxp-bsp      ??= "10.0.4.imx"
-PREFERRED_VERSION_weston:mx7-nxp-bsp      ??= "10.0.4.imx"
+PREFERRED_VERSION_weston:mx6-nxp-bsp      ??= "10.0.3.imx"
+PREFERRED_VERSION_weston:mx7-nxp-bsp      ??= "10.0.3.imx"
 PREFERRED_VERSION_weston:imx-mainline-bsp   = ""
 
-PREFERRED_VERSION_wayland-protocols:mx6-nxp-bsp  ??= "1.32.imx"
-PREFERRED_VERSION_wayland-protocols:mx7-nxp-bsp  ??= "1.32.imx"
-PREFERRED_VERSION_wayland-protocols:mx8-nxp-bsp  ??= "1.32.imx"
-PREFERRED_VERSION_wayland-protocols:mx9-nxp-bsp  ??= "1.32.imx"
+PREFERRED_VERSION_wayland-protocols:mx6-nxp-bsp  ??= "1.31.imx"
+PREFERRED_VERSION_wayland-protocols:mx7-nxp-bsp  ??= "1.31.imx"
+PREFERRED_VERSION_wayland-protocols:mx8-nxp-bsp  ??= "1.31.imx"
+PREFERRED_VERSION_wayland-protocols:mx9-nxp-bsp  ??= "1.31.imx"
 
 PREFERRED_VERSION_wayland-native       ??= "1.22.0.imx"
 PREFERRED_VERSION_nativesdk-wayland    ??= "1.22.0.imx"
@@ -580,25 +579,23 @@ PREFERRED_VERSION_wayland:imx-nxp-bsp  ??= "1.22.0.imx"
 PREFERRED_VERSION_xwayland:imx-nxp-bsp ??= "23.1.1.imx"
 
 # Use i.MX libdrm Version
-PREFERRED_VERSION_libdrm:mx6-nxp-bsp ??= "2.4.115.imx"
-PREFERRED_VERSION_libdrm:mx7-nxp-bsp ??= "2.4.115.imx"
-PREFERRED_VERSION_libdrm:mx8-nxp-bsp ??= "2.4.115.imx"
-PREFERRED_VERSION_libdrm:mx9-nxp-bsp ??= "2.4.115.imx"
+PREFERRED_VERSION_libdrm:mx6-nxp-bsp ??= "2.4.114.imx"
+PREFERRED_VERSION_libdrm:mx7-nxp-bsp ??= "2.4.114.imx"
+PREFERRED_VERSION_libdrm:mx8-nxp-bsp ??= "2.4.114.imx"
+PREFERRED_VERSION_libdrm:mx9-nxp-bsp ??= "2.4.114.imx"
 
-PREFERRED_VERSION_spirv-headers:imxvulkan            ??= "1.3.239.0.imx"
-PREFERRED_VERSION_spirv-tools:imxvulkan              ??= "1.3.239.0.imx"
-PREFERRED_VERSION_vulkan-headers:imxvulkan           ??= "1.3.239.0.imx"
-PREFERRED_VERSION_vulkan-loader:imxvulkan            ??= "1.3.239.0.imx"
-PREFERRED_VERSION_vulkan-tools:imxvulkan             ??= "1.3.239.0.imx"
-PREFERRED_VERSION_vulkan-validation-layers:imxvulkan ??= "1.3.239.0.imx"
+PREFERRED_VERSION_vulkan-headers:imxvulkan           ??= "1.2.182.0.imx"
+PREFERRED_VERSION_vulkan-loader:imxvulkan            ??= "1.2.182.0.imx"
+PREFERRED_VERSION_vulkan-tools:imxvulkan             ??= "1.2.182.0.imx"
+PREFERRED_VERSION_vulkan-validation-layers:imxvulkan ??= "1.2.182.0.imx"
 
 # Use i.MX optee Version
-PREFERRED_VERSION_optee-os:mx8-nxp-bsp     ??= "4.0.0.imx"
-PREFERRED_VERSION_optee-os:mx9-nxp-bsp     ??= "4.0.0.imx"
-PREFERRED_VERSION_optee-client:mx8-nxp-bsp ??= "4.0.0.imx"
-PREFERRED_VERSION_optee-client:mx9-nxp-bsp ??= "4.0.0.imx"
-PREFERRED_VERSION_optee-test:mx8-nxp-bsp   ??= "4.0.0.imx"
-PREFERRED_VERSION_optee-test:mx9-nxp-bsp   ??= "4.0.0.imx"
+PREFERRED_VERSION_optee-os:mx8-nxp-bsp     ??= "3.21.0.imx"
+PREFERRED_VERSION_optee-os:mx9-nxp-bsp     ??= "3.21.0.imx"
+PREFERRED_VERSION_optee-client:mx8-nxp-bsp ??= "3.21.0.imx"
+PREFERRED_VERSION_optee-client:mx9-nxp-bsp ??= "3.21.0.imx"
+PREFERRED_VERSION_optee-test:mx8-nxp-bsp   ??= "3.21.0.imx"
+PREFERRED_VERSION_optee-test:mx9-nxp-bsp   ??= "3.21.0.imx"
 
 # Use i.MX opencv Version
 PREFERRED_VERSION_opencv:mx8-nxp-bsp ??= "4.6.0.imx"
@@ -618,8 +615,7 @@ WIC_CREATE_EXTRA_ARGS ?= "--no-fstab-update"
 
 OPTEE_BIN_EXT ??= ""
 OPTEE_BOOT_IMAGE         = "tee.bin uTee-${OPTEE_BIN_EXT}"
-OPTEE_BOOT_IMAGE:mx8-generic-bsp = "tee.bin"
-OPTEE_BOOT_IMAGE:mx9-generic-bsp = "tee.bin"
+OPTEE_BOOT_IMAGE:aarch64 = "tee.bin"
 
 IMAGE_FSTYPES ?= "${SOC_DEFAULT_IMAGE_FSTYPES}"
 
@@ -637,7 +633,7 @@ WKS_FILE_DEPENDS ?= " \
     virtual/bootloader \
     \
     e2fsprogs-native \
-    bmaptool-native \
+    bmap-tools-native \
     ${@bb.utils.contains('MACHINE_FEATURES', 'optee', '${OPTEE_WKS_FILE_DEPENDS}', '', d)} \
 "
 
@@ -652,10 +648,7 @@ WKS_FILE_DEPENDS ?= " \
 #
 # NOTE: the results binary name of the boot container is set to 'imx-boot'
 # for both NXP and Mainline BSP.
-WKS_FILE_DEPENDS:append:imx-generic-bsp:mx8-generic-bsp = " \
-    ${@oe.utils.ifelse(d.getVar('UBOOT_PROVIDES_BOOT_CONTAINER') == '0', 'imx-boot', '')} \
-"
-WKS_FILE_DEPENDS:append:imx-generic-bsp:mx9-generic-bsp = " \
+WKS_FILE_DEPENDS:append:imx-generic-bsp:aarch64 = " \
     ${@oe.utils.ifelse(d.getVar('UBOOT_PROVIDES_BOOT_CONTAINER') == '0', 'imx-boot', '')} \
 "
 
@@ -670,8 +663,7 @@ SERIAL_CONSOLES = "115200;ttymxc0"
 SERIAL_CONSOLES:mxs-generic-bsp = "115200;ttyAMA0"
 
 KERNEL_IMAGETYPE = "zImage"
-KERNEL_IMAGETYPE:mx8-generic-bsp = "Image"
-KERNEL_IMAGETYPE:mx9-generic-bsp = "Image"
+KERNEL_IMAGETYPE:aarch64 = "Image"
 
 MACHINE_FEATURES = "usbgadget usbhost vfat alsa touchscreen screen"
 

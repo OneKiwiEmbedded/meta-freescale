@@ -8,10 +8,10 @@ RREPLACES:${PN} = "kernel-module-nxp89xx"
 RPROVIDES:${PN} = "kernel-module-nxp89xx"
 RCONFLICTS:${PN} = "kernel-module-nxp89xx"
 
-SRCBRANCH = "lf-6.1.55_2.2.0"
+SRCBRANCH = "lf-6.1.22_2.0.0"
 MRVL_SRC ?= "git://github.com/nxp-imx/mwifiex.git;protocol=https"
 SRC_URI = "${MRVL_SRC};branch=${SRCBRANCH}"
-SRCREV = "952d10f3349426f917636a4560974117eb6eef5b"
+SRCREV = "f1382ccbd34fc22daf504e798745f6cddb702b82"
 
 S = "${WORKDIR}/git/mxm_wifiex/wlan_src"
 

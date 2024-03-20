@@ -1,5 +1,3 @@
-MACHINEOVERRIDES =. "mx93:"
-
 require conf/machine/include/imx-base.inc
 require conf/machine/include/arm/armv8-2a/tune-cortexa55.inc
 
